@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
     private float _food = 0;
     public Text FoodText;
 
+    public string FoodTextLabel;
+
     private CharacterController _controller;
     private Vector3 _movement;
     private Vector3 _lastPosition;
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         _controller = GetComponent<CharacterController>();
+        FoodText = GameObject.Find(FoodTextLabel).GetComponent<Text>();
     }
 
     void Update()
