@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
 
     private CharacterController _controller;
     private Vector3 _movement;
+    private Vector3 _lastPosition;
+    [SerializeField]
+    private float _timeNotMoved;
+    [SerializeField]
+    private float _timeMaxNotMoved;
 
     void Awake()
     {
@@ -36,6 +41,24 @@ public class Player : MonoBehaviour
 
         // move verticaly
         _movement.x = Input.GetAxisRaw("Horizontal") * Speed;
+
+        if (!_controller.isGrounded)
+        {
+            if (_lastPosition.y != transform.position.y)
+            {
+                _timeNotMoved = 0;
+                _lastPosition = transform.position;
+            }
+            else
+            {
+                _timeNotMoved += Time.deltaTime;
+            }
+
+            if (_timeNotMoved >= _timeMaxNotMoved)
+            {
+                _movement.y = 0;
+            }
+        }
 
         // Handle gravity
         _movement.y -= Gravity * Time.deltaTime;
